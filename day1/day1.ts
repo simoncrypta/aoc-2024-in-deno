@@ -1,41 +1,45 @@
-export  async function getParseListOfLocations() {
+type parsedListOfLocations =  {
+  leftList: number[];
+  rightList: number[];
+};
+
+export async function getParseListOfLocations(): Promise<parsedListOfLocations> {
   const text = await Deno.readTextFile("input.txt");
-  const listOfLocations: number[][] = [];
-  text.split("\n").forEach((setOflocations: string) => {
-    const pairOfLocationId = setOflocations.split("   ").map((locationId: string) => {
-      if (!Number.isNaN(parseInt(locationId))) {
-        return parseInt(locationId);
-      } else {
-        throw new Error("Invalid input");
-      }
-    });
-    if (pairOfLocationId) {
-      listOfLocations.push(pairOfLocationId);
+  const lines = text.split("\n");
+  const leftList: number[] = [];
+  const rightList: number[] = [];
+
+  for (const line of lines) {
+    const [left, right] = line.split("   ").map(id => parseInt(id));
+    if (!Number.isNaN(left) && !Number.isNaN(right)) {
+      leftList.push(left);
+      rightList.push(right);
+    } else {
+      throw new Error("Invalid input");
     }
-  });
-  return listOfLocations;
+  }
+
+  return { leftList, rightList };
 }
 
-export function sortLocationAscBySide(listOfLocations: number[][]) {
-  const leftList = listOfLocations.map((pairOfLocationId: number[]) => pairOfLocationId[0]);
-  const rightList = listOfLocations.map((pairOfLocationId: number[]) => pairOfLocationId[1]);
-  const orderedLeftList = leftList.sort((a, b) => a - b);
-  const orderedRightList = rightList.sort((a, b) => a - b);
-  return { orderedLeftList, orderedRightList };
+export function sortLocationAscBySide(listOfLocations: parsedListOfLocations): parsedListOfLocations {
+  const orderedLeftList = listOfLocations.leftList.sort((a, b) => a - b);
+  const orderedRightList = listOfLocations.rightList.sort((a, b) => a - b);
+  return { leftList: orderedLeftList, rightList: orderedRightList };
 }
 
-export function totalDifferenceBetweenRightAndLeft(orderedLeftList: number[], orderedRightList: number[]) {
+export function totalDifferenceBetweenRightAndLeft(orderedList: parsedListOfLocations): number {
   let totalDifference: number = 0;
-  for(let i = 0; i < orderedLeftList.length; i++) {
-    const difference = Math.abs(orderedRightList[i] - orderedLeftList[i]);
+  for(let i = 0; i < orderedList.leftList.length; i++) {
+    const difference = Math.abs(orderedList.leftList[i] - orderedList.rightList[i]);
     totalDifference += difference;
   }
  return totalDifference;
 }
 
 if (import.meta.main) {
-  const listOfLocations: number[][] = await getParseListOfLocations();
-  const { orderedLeftList, orderedRightList } = sortLocationAscBySide(listOfLocations);
-  const answer = totalDifferenceBetweenRightAndLeft(orderedLeftList, orderedRightList);
+  const listOfLocations = await getParseListOfLocations();
+  const orderedLocations = sortLocationAscBySide(listOfLocations);
+  const answer = totalDifferenceBetweenRightAndLeft(orderedLocations);
   console.log(answer);
 }
