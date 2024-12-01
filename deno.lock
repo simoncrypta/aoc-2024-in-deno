@@ -1,0 +1,30 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/assert@1": "1.0.8",
+    "jsr:@std/internal@^1.0.5": "1.0.5"
+  },
+  "jsr": {
+    "@std/assert@1.0.8": {
+      "integrity": "ebe0bd7eb488ee39686f77003992f389a06c3da1bbd8022184804852b2fa641b",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    }
+  },
+  "redirects": {
+    "https://cdn.skypack.dev/-/@sinonjs/fake-timers@v7.1.2-pt93Fzvqp6qMXzl1XrND/dist=es2019,mode=types/index.d.ts": "https://cdn.skypack.dev/-/@sinonjs/fake-timers@v7.1.2-pt93Fzvqp6qMXzl1XrND/dist=es2019,mode=types/types/fake-timers-src.d.ts"
+  },
+  "remote": {
+    "https://cdn.skypack.dev/-/sinon@v11.1.2-gD7yE198nweGBLV5XWgz/dist=es2019,mode=imports/optimized/sinon.js": "0fe70206408639006c4b013933c8a79b171ef80da43911b20038c5e6c0ef7f1b",
+    "https://cdn.skypack.dev/sinon@11.1.2?dts": "9e657d14822452c78c87c3da0e4c9156cc0504ff25f30045dc7508362e21dbf6"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1"
+    ]
+  }
+}
